@@ -46,14 +46,14 @@ def check4arithmetic(token_serie, col2check):
     return False
 
 
-def choose_place(token_serie, current_token):
+def choose_place(token_serie):
     """
-    The function choses the minimal place index from set of place indices for places
+    The function chooses the minimal place index from set of place indices for places
     where the amount of potential colours put will result in computer's victory
     """
+    current_token = Token(None)
     if len(token_serie) == 0:
-        token_serie.append(current_token)
-        return token_serie
+        return 0
 
     combinations_dict = {}
 
@@ -71,9 +71,7 @@ def choose_place(token_serie, current_token):
         combinations_dict[place2insert] = how_many_arithmetic
 
     best_place = max(combinations_dict, key=combinations_dict.get)
-    current_token.colour = None
-    token_serie.insert(best_place, current_token)
-    return token_serie
+    return best_place
 
 
 # GAME
@@ -82,8 +80,9 @@ def main():
     moves_count = 0
     while moves_count < n:
         # computer chooses place
+        best_place = choose_place(token_serie)
         current_token = Token(None)
-        token_serie = choose_place(token_serie, current_token)
+        token_serie.insert(best_place, current_token)
         print([vizdict[token.colour] for token in token_serie])
         print("\n")
 
