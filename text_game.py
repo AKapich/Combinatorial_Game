@@ -14,9 +14,9 @@ vizdict = {
 n = 10  # cap for moves
 
 
-class Token:
-    def __init__(self, colour):
-        self.colour = colour
+# class Token:
+#     def __init__(self, colour):
+#         self.colour = colour
 
 
 def check4arithmetic(token_serie, col2check):
@@ -24,7 +24,7 @@ def check4arithmetic(token_serie, col2check):
     The function checks if the token series consists of an arithmetic subseries of the given colour
     """
     colour_indices = [
-        index for index, token in enumerate(token_serie) if token.colour == col2check
+        index for index, col in enumerate(token_serie) if col == col2check
     ]
     mlos = series_lengths[col2check]  # minimun length of series
 
@@ -51,19 +51,19 @@ def choose_place(token_serie):
     The function chooses the minimal place index from set of place indices for places
     where the amount of potential colours put will result in computer's victory
     """
-    current_token = Token(None)
     if len(token_serie) == 0:
         return 0
 
     combinations_dict = {}
+    current_col = None
 
     for place2insert in range(len(token_serie) + 1):
         new_serie = deepcopy(token_serie)
-        new_serie.insert(place2insert, current_token)
+        new_serie.insert(place2insert, current_col)
         how_many_arithmetic = 0  # how many colours put in the chosen place will create an arithmetic serie
 
         for col2check in range(r):
-            current_token.colour = col2check
+            current_col = col2check
             arithmetic_present = check4arithmetic(new_serie, col2check)
             if arithmetic_present:
                 how_many_arithmetic += 1
@@ -81,9 +81,9 @@ def main():
     while moves_count < n:
         # computer chooses place
         best_place = choose_place(token_serie)
-        current_token = Token(None)
-        token_serie.insert(best_place, current_token)
-        print([vizdict[token.colour] for token in token_serie])
+        current_col= None
+        token_serie.insert(best_place, current_col)
+        print([vizdict[col] for col in token_serie])
         print("\n")
 
         # agent chooses colour
@@ -97,7 +97,7 @@ def main():
                 break
             else:
                 print(f"Dawaj kolor z przedziału 0-{r-1}!  ")
-        current_token.colour = colour
+        token_serie[best_place] = colour
 
         # verify if there's arithmetic serie present
         for col2check in range(r):
@@ -107,7 +107,7 @@ def main():
                 exit()
 
         moves_count += 1
-        print([vizdict[token.colour] for token in token_serie])
+        print([vizdict[col] for col in token_serie])
         print("\nMoves left: ", n - moves_count, "\n")
 
     print("Elegancko, koniec gry")
