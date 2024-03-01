@@ -1,120 +1,68 @@
-from itertools import combinations
-from copy import deepcopy
+import pygame
+import time
+from draw_controls_info import draw_controls_info
+from draw_loss_screen import draw_loss_screen
+from draw_sequence import draw_sequence
+from game_config import get_game_config
+from draw_config import draw_config
 
-r = 3 # colours
-k0, k1, k2 = 3, 4, 3 # number of colours in each row
-global series_lengths, vizdict 
-series_lengths = {
-    0: k0,
-    1: k1,
-    2: k2
-}
-vizdict = {
-    None: 'TOKEN',
-    0: 0,
-    1: 1,
-    2: 2,
-}
-n = 10 # cap for moves
+pygame.init()
 
+display_info = pygame.display.Info()
+screen = pygame.display.set_mode((display_info.current_w, display_info.current_h))
 
+config = get_game_config()
 
-class Token:
-    def __init__(self, colour):
-        self.colour = colour
+start_time = time.time()
 
+while time.time() - start_time < 1:
+    for event in pygame.event.get():
+        pass
 
-def check4arithmetic(token_serie, col2check):
-    """
-        The function checks if the token series consists of an arithmetic subseries of the given colour
-    """
-    colour_indices = [index for index, token in enumerate(token_serie) if token.colour==col2check]
-    mlos = series_lengths[col2check] # minimun length of series 
+    screen.fill((0, 0, 0))
+    draw_config(screen, config)
+    pygame.display.flip()
 
-    if len(colour_indices) < mlos: # series must be at least of the given length
-        return False 
-    
-    combinations_list = list(combinations(colour_indices, mlos)) # every combination of mlos length
-    for comb in combinations_list:
-        is_subseries_arithmetic = True
-        for i in range(len(comb)-2):
-            if comb[i] + comb[i+2] != 2*comb[i+1]:
-                is_subseries_arithmetic = False
-                break
-        if is_subseries_arithmetic:
-            return True
-        
-    return False
-            
+sequence = []
 
-def choose_place(token_serie, current_token):
-    """
-        The function choses the minimal place index from set of place indices for places
-        where the amount of potential colours put will result in computer's victory
-    """
-    if len(token_serie) == 0:
-        token_serie.append(current_token)
-        return token_serie
-    
-    combinations_dict = {}
+color_keys = [
+    pygame.K_1,
+    pygame.K_2,
+    pygame.K_3,
+    pygame.K_4,
+    pygame.K_5,
+    pygame.K_6,
+]
 
-    for place2insert in range(len(token_serie)+1):
-        new_serie = deepcopy(token_serie)
-        new_serie.insert(place2insert, current_token)
-        how_many_arithmetic = 0 # how many colours put in the chosen place will create an arithmetic serie
+running = True
+lost = False
+while running:
+    screen.fill((0, 0, 0))
 
-        for col2check in range(r):
-            current_token.colour = col2check
-            arithmetic_present = check4arithmetic(new_serie, col2check)
-            if arithmetic_present:
-                how_many_arithmetic += 1
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-        combinations_dict[place2insert] = how_many_arithmetic
-    
-    best_place = max(combinations_dict, key=combinations_dict.get)
-    current_token.colour = None
-    token_serie.insert(best_place, current_token)
-    return token_serie
+        if event.type == pygame.KEYUP:
+            if event.key == pygame.K_ESCAPE:
+                running = False
 
+            if event.key == pygame.K_r and lost:
+                config = get_game_config()
+                lost = False
+                sequence = []
+                start_time = time.time()
 
+            for color_index, color_key in enumerate(color_keys):
+                if event.key == color_key:
+                    sequence.append(color_index)
 
-# GAME
-def main():
-    token_serie = []
-    moves_count = 0
-    while moves_count < n:
-        # computer chooses place
-        current_token = Token(None)
-        token_serie = choose_place(token_serie, current_token)
-        print([vizdict[token.colour] for token in token_serie])
-        print('\n')
+    draw_sequence(screen, sequence, len(sequence))
+    draw_controls_info(screen, config)
 
-        # agent chooses colour
-        while True:
-            try:
-                colour = int(input(f"Dawaj kolor. [Dostępne kolory 0-{r-1}] "))
-            except ValueError:
-                print("Dawaj liczbę ")
-                continue
-            if 0 <= colour <= r-1:
-                break
-            else:
-                print(f"Dawaj kolor z przedziału 0-{r-1}!  ")
-        current_token.colour = colour
+    if lost:
+        draw_loss_screen()
 
-        # verify if there's arithmetic serie present
-        for col2check in range(r):
-            arithmetic_present = check4arithmetic(token_serie, col2check)
-            if arithmetic_present:
-                print("MMMMMM puuuu")
-                exit()
+    pygame.display.flip()
 
-        moves_count += 1
-        print([vizdict[token.colour] for token in token_serie])
-        print('\nMoves left: ', n-moves_count, '\n')
-
-    print("Elegancko, koniec gry")
-
-
-if __name__ == "__main__":
-    main()
+pygame.quit()
