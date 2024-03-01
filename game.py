@@ -25,6 +25,9 @@ class Token:
 
 
 def check4arithmetic(token_serie, col2check):
+    """
+        The function checks if the token series consists of an arithmetic subseries of the given colour
+    """
     colour_indices = [index for index, token in enumerate(token_serie) if token.colour==col2check]
     mlos = series_lengths[col2check] # minimun length of series 
 
@@ -45,6 +48,10 @@ def check4arithmetic(token_serie, col2check):
             
 
 def choose_place(token_serie, current_token):
+    """
+        The function choses the minimal place index from set of place indices for places
+        where the amount of potential colours put will result in computer's victory
+    """
     if len(token_serie) == 0:
         token_serie.append(current_token)
         return token_serie
