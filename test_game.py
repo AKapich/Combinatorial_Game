@@ -32,11 +32,12 @@ def test_check4arithmetic():
     )
 
 
-# def test_choose_place():
-#     """
-#     The original function chooses the minimal place index from set of place indices for places
-#     where the amount of potential colours put will result in computer's victory
-#     """
-#     assert choose_place([1, 1, 0, 2, 0]) == 1
-#     assert choose_place([0, 2, 2, 0]) == 2
-#     assert choose_place([0, 1, 2, 0, 1, 2]) == 0
+def test_choose_place():
+    """
+    The original function chooses the minimal place index from set of place indices for places
+    where the amount of potential colours put will result in computer's victory
+    """
+    
+    assert choose_place([0, 2, 2, 0]) == 2
+    assert choose_place([1, 1, 0, 2, 0]) == 1
+    assert choose_place([0, 1, 2, 0, 1, 2]) == 0

@@ -59,11 +59,11 @@ def choose_place(token_serie):
 
     for place2insert in range(len(token_serie) + 1):
         new_serie = deepcopy(token_serie)
-        new_serie.insert(place2insert, current_col)
+        new_serie.insert(place2insert, None)
         how_many_arithmetic = 0  # how many colours put in the chosen place will create an arithmetic serie
 
         for col2check in range(r):
-            current_col = col2check
+            new_serie[place2insert] = col2check
             arithmetic_present = check4arithmetic(new_serie, col2check)
             if arithmetic_present:
                 how_many_arithmetic += 1
