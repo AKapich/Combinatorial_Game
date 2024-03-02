@@ -1,7 +1,8 @@
 import pygame
 import time
 from draw_controls_info import draw_controls_info
-from draw_loss_screen import draw_loss_screen
+from draw_current_game_state import draw_current_game_state
+from draw_win_loss_screen import draw_win_loss_screen
 from draw_sequence import draw_sequence
 from game_config import get_game_config
 from draw_config import draw_config
@@ -38,6 +39,9 @@ color_keys = [
 insertion_place = 0
 running = True
 lost = False
+won = False
+n = int(sum([s.length for s in config]) * 6 / 5)
+
 while running:
     screen.fill((0, 0, 0))
 
@@ -46,14 +50,18 @@ while running:
             running = False
 
         if event.type == pygame.KEYUP:
+            if lost or won:
+                if event.key == pygame.K_r:
+                    config = get_game_config()
+                    lost = False
+                    won = False
+                    sequence = []
+                    start_time = time.time()
+                else:
+                    break
+
             if event.key == pygame.K_ESCAPE:
                 running = False
-
-            if event.key == pygame.K_r and lost:
-                config = get_game_config()
-                lost = False
-                sequence = []
-                start_time = time.time()
 
             for color_index, color_key in enumerate(color_keys):
                 if color_index < len(config) and event.key == color_key:
@@ -61,14 +69,19 @@ while running:
 
                     if check4arithmetic(sequence, config):
                         lost = True
+                    elif len(sequence) >= n:
+                        won = True
 
                     insertion_place = choose_place(sequence, config)
 
     draw_sequence(screen, sequence, insertion_place)
     draw_controls_info(screen, config)
+    draw_current_game_state(screen, len(sequence), n)
 
     if lost:
-        draw_loss_screen(screen)
+        draw_win_loss_screen(screen, False)
+    if won:
+        draw_win_loss_screen(screen, True)
 
     pygame.display.flip()
 

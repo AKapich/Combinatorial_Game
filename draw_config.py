@@ -23,10 +23,11 @@ def draw_config(
         y = start_y + i * (color_box_size + spacing)
 
         draw_text_with_color_box(
-            screen,
-            color_box_size,
-            sequence_config.color,
-            f"Length: {sequence_config.length}",
-            screen_center_x,
-            y,
+            screen=screen,
+            box_size=color_box_size,
+            color=sequence_config.color,
+            text=f"Length: {sequence_config.length}",
+            center_x=screen_center_x,
+            left_x=None,
+            y=y,
         )

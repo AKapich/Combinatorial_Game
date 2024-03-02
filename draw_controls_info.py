@@ -19,17 +19,19 @@ def draw_controls_info(
     i = 0
     while i < len(config):
         rect = draw_text_with_color_box(
-            screen,
-            box_size,
-            game_colors[i],
-            "Kolor " + str(i + 1) + f" ({config[i].length})",
-            x,
-            y,
+            screen=screen,
+            box_size=box_size,
+            color=game_colors[i],
+            text=f"Klawisz {str(i + 1)}, długość: {config[i].length}",
+            left_x=x,
+            center_x=None,
+            y=y,
         )
 
         if rect.right > screen_width:
             x = start_x
-            y += box_size
+            y += box_size + spacing
+            pygame.draw.rect(screen, (0, 0, 0), rect)
             continue
 
         x = rect.right + spacing
