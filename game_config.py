@@ -23,7 +23,7 @@ def get_game_config() -> list[SequenceConfig]:
 
     return [
         SequenceConfig(
-            length=random.randint(3, 7),
+            length=random.randint(3, 5),
             color=game_colors[i],
         )
         for i in range(number_of_colors)

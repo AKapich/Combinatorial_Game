@@ -5,7 +5,7 @@ from draw_loss_screen import draw_loss_screen
 from draw_sequence import draw_sequence
 from game_config import get_game_config
 from draw_config import draw_config
-from text_game import __check4arithmetic, check4arithmetic, choose_place
+from win_loss_utils import __check4arithmetic, check4arithmetic, choose_place
 
 pygame.init()
 
@@ -56,7 +56,7 @@ while running:
                 start_time = time.time()
 
             for color_index, color_key in enumerate(color_keys):
-                if event.key == color_key:
+                if color_index < len(config) and event.key == color_key:
                     sequence.insert(insertion_place, color_index)
 
                     if check4arithmetic(sequence, config):

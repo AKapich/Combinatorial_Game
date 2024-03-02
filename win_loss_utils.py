@@ -1,6 +1,7 @@
 from itertools import combinations
 from copy import deepcopy
 from game_config import SequenceConfig, game_colors
+import random
 
 
 def check4arithmetic(token_serie, config):
@@ -54,15 +55,14 @@ def choose_place(token_serie: list[int], config: list[SequenceConfig]):
     colors = [sequence.color for sequence in config]
 
     combinations_dict = {}
-    current_col = None
 
     for place2insert in range(len(token_serie) + 1):
         new_serie = deepcopy(token_serie)
-        new_serie.insert(place2insert, current_col)
+        new_serie.insert(place2insert, None)
         how_many_arithmetic = 0  # how many colours put in the chosen place will create an arithmetic serie
 
         for col2check in range(len(colors)):
-            current_col = col2check
+            new_serie[place2insert] = col2check
             arithmetic_present = __check4arithmetic(
                 new_serie, series_lengths, col2check
             )
@@ -71,5 +71,8 @@ def choose_place(token_serie: list[int], config: list[SequenceConfig]):
 
         combinations_dict[place2insert] = how_many_arithmetic
 
-    best_place = max(combinations_dict, key=combinations_dict.get)
-    return best_place
+    max_value = max(combinations_dict.values())
+    best_places = [
+        place for place, value in combinations_dict.items() if value == max_value
+    ]
+    return random.choice(best_places)
