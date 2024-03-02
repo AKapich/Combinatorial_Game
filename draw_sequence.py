@@ -34,7 +34,13 @@ def draw_sequence(
             circle_radius,
         )
 
-    arrow_x = padding + arrow_index * (circle_radius * 2 + spacing) + (spacing / 2)
+    arrow_width = 10
+    arrow_x = (
+        padding
+        + arrow_index * (circle_radius * 2 + spacing)
+        + (spacing / 2)
+        - (arrow_width / 2)
+    )
 
     center = pygame.Vector2(
         arrow_x,
@@ -42,4 +48,4 @@ def draw_sequence(
     )
 
     end = pygame.Vector2(arrow_x, screen_height / 2 - circle_radius)
-    draw_arrow(screen, center, end, pygame.Color("dodgerblue"), 10, 20, 12)
+    draw_arrow(screen, center, end, pygame.Color("dodgerblue"), arrow_width, 20, 12)
