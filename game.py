@@ -57,6 +57,7 @@ while running:
                     won = False
                     sequence = []
                     start_time = time.time()
+                    n = int(sum([s.length for s in config]) * 7/5)
                 else:
                     break
 
