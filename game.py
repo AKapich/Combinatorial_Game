@@ -5,6 +5,7 @@ from draw_loss_screen import draw_loss_screen
 from draw_sequence import draw_sequence
 from game_config import get_game_config
 from draw_config import draw_config
+from text_game import __check4arithmetic, check4arithmetic, choose_place
 
 pygame.init()
 
@@ -34,6 +35,7 @@ color_keys = [
     pygame.K_6,
 ]
 
+insertion_place = 0
 running = True
 lost = False
 while running:
@@ -55,13 +57,18 @@ while running:
 
             for color_index, color_key in enumerate(color_keys):
                 if event.key == color_key:
-                    sequence.append(color_index)
+                    sequence.insert(insertion_place, color_index)
 
-    draw_sequence(screen, sequence, len(sequence))
+                    if check4arithmetic(sequence, config):
+                        lost = True
+
+                    insertion_place = choose_place(sequence, config)
+
+    draw_sequence(screen, sequence, insertion_place)
     draw_controls_info(screen, config)
 
     if lost:
-        draw_loss_screen()
+        draw_loss_screen(screen)
 
     pygame.display.flip()
 

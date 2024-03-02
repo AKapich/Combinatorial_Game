@@ -22,7 +22,7 @@ def draw_controls_info(
             screen,
             box_size,
             game_colors[i],
-            "Kolor " + str(i + 1),
+            "Kolor " + str(i + 1) + f" ({config[i].length})",
             x,
             y,
         )

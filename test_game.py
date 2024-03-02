@@ -1,4 +1,4 @@
-from text_game import check4arithmetic, choose_place
+from text_game import __check4arithmetic, choose_place
 
 # SETUP
 r = 3  # colours
@@ -11,25 +11,20 @@ def test_check4arithmetic():
     The original function checks if the token series consists of an arithmetic subseries of the given colour
     """
     assert (
-        check4arithmetic(
+        __check4arithmetic(
             token_serie=[0, 1, 2, 0, 2, 0],
             col2check=0,
         )
         == False
     )
     assert (
-        check4arithmetic(
+        __check4arithmetic(
             token_serie=[0, 1, 1, 0, 2, 1],
             col2check=1,
         )
         == False
     )
-    assert (
-        check4arithmetic(
-            token_serie=[2, 0, 2, 1, 2], col2check=2
-        )
-        == True
-    )
+    assert __check4arithmetic(token_serie=[2, 0, 2, 1, 2], col2check=2) == True
 
 
 # def test_choose_place():
