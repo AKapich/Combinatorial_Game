@@ -1,5 +1,7 @@
 from itertools import combinations
 from copy import deepcopy
+import random
+
 
 r = 3  # colours
 k0, k1, k2 = 3, 4, 3  # number of colours in each row
@@ -55,7 +57,6 @@ def choose_place(token_serie):
         return 0
 
     combinations_dict = {}
-    current_col = None
 
     for place2insert in range(len(token_serie) + 1):
         new_serie = deepcopy(token_serie)
@@ -70,8 +71,9 @@ def choose_place(token_serie):
 
         combinations_dict[place2insert] = how_many_arithmetic
 
-    best_place = max(combinations_dict, key=combinations_dict.get)
-    return best_place
+    max_value = max(combinations_dict.values())
+    best_places = [place for place, value in combinations_dict.items() if value == max_value]
+    return random.choice(best_places)
 
 
 # GAME
