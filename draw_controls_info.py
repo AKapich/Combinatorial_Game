@@ -22,7 +22,7 @@ def draw_controls_info(
             screen=screen,
             box_size=box_size,
             color=game_colors[i],
-            text=f"Klawisz {str(i + 1)}, długość: {config[i].length}",
+            text=f"Key {str(i + 1)}, length: {config[i].length}",
             left_x=x,
             center_x=None,
             y=y,

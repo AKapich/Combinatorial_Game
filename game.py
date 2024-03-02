@@ -40,7 +40,7 @@ insertion_place = 0
 running = True
 lost = False
 won = False
-n = int(sum([s.length for s in config]) * 6 / 5)
+n = int(sum([s.length for s in config]) * 7/5)
 
 while running:
     screen.fill((0, 0, 0))

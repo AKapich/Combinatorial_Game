@@ -11,7 +11,7 @@ def draw_current_game_state(screen: pygame.Surface, sequence_length: int, n: int
     text1 = font.render(f"n = {n}", True, WHITE)
     text_rect1 = text1.get_rect()
 
-    text2 = font.render(f"Obecna dlugość sekwencji: {sequence_length}", True, WHITE)
+    text2 = font.render(f"Current sequence length: {sequence_length}", True, WHITE)
     text_rect2 = text2.get_rect()
 
     text_rect1.right = text_rect2.right = screen_width - 20
