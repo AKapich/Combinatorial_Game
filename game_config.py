@@ -19,7 +19,7 @@ class SequenceConfig:
 
 
 def get_game_config() -> list[SequenceConfig]:
-    number_of_colors = random.randint(3, 6)
+    number_of_colors = random.randint(3, 4)
 
     return [
         SequenceConfig(
