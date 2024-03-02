@@ -11,7 +11,7 @@ from win_loss_utils import __check4arithmetic, check4arithmetic, choose_place
 pygame.init()
 
 display_info = pygame.display.Info()
-screen = pygame.display.set_mode((display_info.current_w, display_info.current_h))
+screen = pygame.display.set_mode((display_info.current_w, 600))
 
 config = get_game_config()
 
